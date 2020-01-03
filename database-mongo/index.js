@@ -1,13 +1,13 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect('mongodb://localhost/test', { useMongoClient: true });
 
 var db = mongoose.connection;
 
-db.on('error', function() {
+db.on('error', function () {
   console.log('mongoose connection error');
 });
 
-db.once('open', function() {
+db.once('open', function () {
   console.log('mongoose connected successfully');
 });
 
@@ -18,9 +18,9 @@ var itemSchema = mongoose.Schema({
 
 var Item = mongoose.model('Item', itemSchema);
 
-var selectAll = function(callback) {
-  Item.find({}, function(err, items) {
-    if(err) {
+var selectAll = function (callback) {
+  Item.find({}, function (err, items) {
+    if (err) {
       callback(err, null);
     } else {
       callback(null, items);
