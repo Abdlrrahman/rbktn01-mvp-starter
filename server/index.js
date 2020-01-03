@@ -43,7 +43,11 @@ const IN_PROD = NODE_ENV === 'production'
 
 //TODO : db
 
-
+var data = data || [];
+function save(email, password) {
+  data.push(email, password);
+  console.log(data)
+}
 
 app.use(session({
   name: SESS_NAME,
@@ -114,8 +118,12 @@ app.get('/home', redirectLogin, (req, res) => {
   <ul>
   <li>Name: ${user.name}</li>
   <li>Email: ${user.email}</li>
-  </ul>
-  `)
+  <h1>${user.name}'s Information</h1>
+  <input type='email' name="email" placeholder='Email' required />
+  <input type='password' name="password" placeholder='Password' required />
+  <button onClick="${save(req.email, req.body.password)}" type='submit'>Enter</button>
+  </ul >
+    `)
 })
 
 
@@ -125,12 +133,12 @@ app.get('/profile', redirectLogin, (req, res) => {
 
 app.get('/signup', redirectHome, (req, res) => {
   res.send(`
-  <h1>Signup</h1>
+    < h1 > Signup</h1 >
   <form method="post" action="/signup">
-  <input name="name" placeholder='Name' required />
-  <input type='email' name="email" placeholder='Email' required />
-  <input type='password' name="password" placeholder='Password' required />
-  <input type='submit' />
+    <input name="name" placeholder='Name' required />
+    <input type='email' name="email" placeholder='Email' required />
+    <input type='password' name="password" placeholder='Password' required />
+    <input type='submit' />
   </form>
   <a href="/login">Login</a>
   `)
@@ -143,7 +151,6 @@ app.post('/login', redirectHome, (req, res) => {
     const user = users.find(
       user => user.email === email && user.password === password // TODO hash
     )
-    console.log(user)
 
     if (user) {
       req.session.userId = user.id
@@ -168,7 +175,6 @@ app.post('/signup', redirectHome, (req, res) => {
         password //TODO hash
       }
       users.push(user)
-      console.log(users)
 
       req.session.userId = user.id
 
