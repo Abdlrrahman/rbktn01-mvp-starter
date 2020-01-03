@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 
 // UNCOMMENT THE DATABASE YOU'D LIKE TO USE
 // var items = require('../database-mysql');
-// var items = require('../database-mongo');
+var items = require('../database-mongo');
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -118,10 +118,8 @@ app.get('/home', redirectLogin, (req, res) => {
   <ul>
   <li>Name: ${user.name}</li>
   <li>Email: ${user.email}</li>
-  <h1>${user.name}'s Information</h1>
-  <input type='email' name="email" placeholder='Email' required />
-  <input type='password' name="password" placeholder='Password' required />
-  <button onClick="${save(req.email, req.body.password)}" type='submit'>Enter</button>
+  <h1>${user.name}'s Blog</h1>
+  <textarea rows="4" cols="50"></textarea>
   </ul >
     `)
 })
@@ -133,7 +131,7 @@ app.get('/profile', redirectLogin, (req, res) => {
 
 app.get('/signup', redirectHome, (req, res) => {
   res.send(`
-    < h1 > Signup</h1 >
+    <h1> Signup</h1 >
   <form method="post" action="/signup">
     <input name="name" placeholder='Name' required />
     <input type='email' name="email" placeholder='Email' required />
