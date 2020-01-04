@@ -2,11 +2,11 @@ var express = require('express');
 const session = require('express-session');
 var bodyParser = require('body-parser');
 
-
 // UNCOMMENT THE DATABASE YOU'D LIKE TO USE
 // var items = require('../database-mysql');
 var items = require('../database-mongo');
 const app = express();
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 const redirectLogin = (req, res, next) => {
@@ -42,12 +42,6 @@ const {
 const IN_PROD = NODE_ENV === 'production'
 
 //TODO : db
-
-var data = data || [];
-function save(email, password) {
-  data.push(email, password);
-  console.log(data)
-}
 
 app.use(session({
   name: SESS_NAME,
@@ -89,10 +83,7 @@ app.get('/', (req, res) => {
   ` : `
   <a href="/login">Login</a>
   <a href="/signup">Signup</a>
-
   `}
-
-
   `)
 })
 
@@ -119,10 +110,11 @@ app.get('/home', redirectLogin, (req, res) => {
   <li>Name: ${user.name}</li>
   <li>Email: ${user.email}</li>
   <h1>${user.name}'s Blog</h1>
-  <textarea rows="4" cols="50"></textarea>
+  <textarea id="blog" rows="4" cols="50"></textarea>
   </ul >
     `)
 })
+
 
 
 app.get('/profile', redirectLogin, (req, res) => {
